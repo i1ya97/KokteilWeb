@@ -1,0 +1,116 @@
+<html lang="ru">
+	<head>
+	    <meta charset="utf-8">
+	    <title>Генератор коктейлей</title>
+	    <link rel="stylesheet"  href="Sheiker.css">
+	    <link rel="icon" href="https://telegram-game-bot.site/site/image/logo.png" type="image/x-icon">
+	    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+	    <script type="text/javascript" src="https://learn.javascript.ru/article/cookie/cookie.js"></script>
+	</head>
+
+	<body>
+		<script type="text/javascript"> 
+		    jQuery(document).ready(function(){ 
+		        $("#preloader").fadeOut("slow"); 
+		    }); 
+		</script>
+		
+		<div id="preloader">
+		    <div class="log"><img src="https://telegram-game-bot.site/site/image/logo.png"></div>
+		    <div class="loader">Загрузка...</div>
+		</div>
+		
+		<nav class="top-menu">
+			<ul class="menu-main">
+		   		<li class="left-item"><a href="https://telegram-game-bot.site/site/home/main.html">Главная</a></li>
+		    	<li class="left-item"><a href="">Энциклопедия коктелей</a>
+		    		<ul>
+		        		<li><a href="https://telegram-game-bot.site/site/wiki/bezalck.html">Безалкогольные</a></li>
+		        		<li><a href="https://telegram-game-bot.site/site/wiki/alck.html">Алкогольные</a></li>
+		      		</ul>
+		    	</li>
+		        <li class="left-item"><a href="https://telegram-game-bot.site/site/wiki/Sheiker.html">Генератор</a></li>
+			</ul>
+			<a class="navbar-logo" href=""><img src="https://telegram-game-bot.site/site/image/logo.png"></a>
+		</nav>
+
+		<center><h1>Шейкер</h1></center>
+		<center>
+			<table width="50%" cellspacing="0" cellpadding="0">
+		   		<tr> 
+		    		<td class="leftcol">
+						В Ваше распоряжение предоставляется уникальный инструмент – <STRONG>коктейль шейкер онлайн</STRONG>.<br>С его помощью Вы можете получить рецепты интересных коктейлей из тех ингредиентов, которые есть у Вас под рукой. Всё очень просто: выберите из списка предложенных компонентов те, которые есть у Вас в наличии, и получите рецепты коктейлей, в той или иной степени содержащие выбранные Вами ингредиенты.
+						<br><br><br>
+						<center>
+							<img class="k" src="https://telegram-game-bot.site/site/image/skoop_shaker_animation_blurred.gif" width="450" height="300"><!--https://cdn.dribbble.com/users/169753/screenshots/2017533/animacion_mezcla_gif.gif-->
+							<br><br>
+							 <form class="conten">
+							   	<p id="add"><select class="chosen-select" tabindex="2">
+							   	</select></p>
+  							</form>
+  							<br><p><input onclick="add(event)" type="submit" value="Добавить"></p>
+  							<br><input type="submit" onclick="send()" value="Готов">
+						</center>
+					<br><br>
+					</td>
+				</tr>
+			</table>
+		</center>
+		<script>
+
+            var el = document.querySelector(".menu-main");
+            if(getCookie("id")==null){
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/reg/autouser.html">Авторизация</a></li>'
+            }else {
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/home/LichKab.html">Личный кабинет</a></li>'
+            }
+            if(getCookie("rol")==2){
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/wiki/add.html">Добавить коктейль</a></li>'
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/wiki/obr.html">Предложенные коктейли</a></li>'
+            }
+            if(getCookie("rol")==1){
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/wiki/predl.html">Предложить коктейль</a></li>'
+            }
+            function add(e) {
+            	e.preventDefault();
+            	var clonedNode = document.getElementById("add").cloneNode(true);
+				document.querySelector(".conten").appendChild(clonedNode);
+            }
+            
+            url = '/api/indeg';
+            $.ajax({url: url, method: 'GET', dataType: 'json', success: 
+                function(response){
+                    console.log('response:', response);
+                    for($i=0;$i<response.length;$i++){
+                        var el = document.querySelector(".chosen-select");
+                        el.innerHTML += '<option value="'+$i+'">'+response[$i]['name']+'</option>';
+                    }
+                }
+            });
+
+            function send(){
+            	var mas = document.getElementsByClassName('chosen-select');
+            	var name = [];
+            	var count= mas.length;
+            	for($i=0; $i < count; $i++){
+            		var n = mas[$i].options.selectedIndex;
+            		name[$i] = mas[$i].options[n].text;
+            	}
+            	$url = '/api/koktail/';
+            	for($i=0; $i < count; $i++){
+            		url = url+ name[$i]+'/';
+            	}
+            	$.ajax({url: url, method: 'TOP', dataType: 'json', success: function(response){
+            	    $url = "https://telegram-game-bot.site/site/wiki/Rezylt.html?count="+response["count"];
+            	    for($i=0;$i<response["count"];$i++){
+            	        i=$i+1;
+            	        url = url + "&"+$i+"="+response[i]["id"];
+            	    }
+                    location.replace(url); 
+                }
+                })
+            }
+        </script>
+		<div id="footer" >2019</div>
+	</body>
+</html>

@@ -1,0 +1,95 @@
+
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <link rel="icon" href="https://telegram-game-bot.site/site/image/logo.png" type="image/x-icon">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+        <script type="text/javascript" src="https://learn.javascript.ru/article/cookie/cookie.js"></script>
+        <title>Регистрация</title>
+    	<link rel="stylesheet"  href="style.css"><!-- Изменить путь к css при сборке проекта-->
+    </head>
+    
+    <body>
+        <script type="text/javascript"> 
+            jQuery(document).ready(function(){ 
+                $("#preloader").fadeOut("slow"); 
+            }); 
+        </script>
+        <div id="preloader">
+            <div class="log"><img src="https://telegram-game-bot.site/site/image/logo.png"></div>
+            <div class="loader">Загрузка...</div>
+        </div>
+        <nav class="top-menu">
+            <ul class="menu-main">
+                <li class="left-item"><a href="https://telegram-game-bot.site/site/home/main.html">Главная</a></li>
+                <li class="left-item"><p>Энциклопедия коктелей</p>
+                    <ul>
+                        <li><a href="https://telegram-game-bot.site/site/wiki/bezalck.html">Безалкогольные</a></li>
+                        <li><a href="https://telegram-game-bot.site/site/wiki/alck.html">Алкогольные</a></li>
+                    </ul>
+                </li>
+                <li class="left-item"><a href="https://telegram-game-bot.site/site/wiki/Sheiker.html">Генератор</a></li>
+            </ul>
+            <a class="navbar-logo" href=""><img src="https://telegram-game-bot.site/site/image/logo.png"></a>
+        </nav>
+        
+        <div class="container">
+            <h1>Регистрация</h1>
+            <section id="content">
+            	<form method="POST" id="myform" action="">
+            		<div>
+            			<h2>Логин</h2>
+            			<input type="text" id="login" placeholder="Введите логин..." name="login" required="" >
+            		</div>
+            		<div>
+            			<h2>Пароль</h2>
+            			<input type="password" id="pas" placeholder="*********************" name="password" required="" >
+            		</div>
+            		<div>
+            			<h2>E-mail</h2>
+            			<input type="email" id="email" placeholder="Введите e-mail..." name="email" required=""  >
+            		</div>
+            			<div>
+            			<input type="submit" value="ОК" >
+            		</div>
+            	</form><!-- form -->
+            </section>
+        </div><!-- container -->
+    
+        <script>
+            var el = document.querySelector(".menu-main");
+            if(getCookie("id")==null){
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/reg/autouser.html">Авторизация</a></li>'
+            }else {
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/home/LichKab.html">Личный кабинет</a></li>'
+            }
+            if(getCookie("rol")==2){
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/wiki/add.html">Добавить коктейль</a></li>'
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/wiki/obr.html">Предложенные коктейли</a></li>'
+            }
+            if(getCookie("rol")==1){
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/wiki/predl.html">Предложить коктейль</a></li>'
+            }
+            
+            $('#myform').submit(function(e) {
+                e.preventDefault();
+                login = document.getElementById("login").value;
+                password = document.getElementById("pas").value;
+                email = document.getElementById("email").value;
+                url = '/api/users/'+login+'/'+password+'/'+email;
+                $.ajax({url: url, method: 'POST', dataType: 'json', success: function(response){
+                    if(response["error"]!=null){
+                        alert(response["error"]+"\nВыполните вход");
+                        location.replace("https://telegram-game-bot.site/site/reg/autouser.html");
+                    }else { 
+                        alert("Вы зарегистрированы!");
+                        location.replace("https://telegram-game-bot.site/site/reg/autouser.html"); 
+                    }
+                }
+                })
+            });
+        </script>
+    </body>
+</html>
+
+  

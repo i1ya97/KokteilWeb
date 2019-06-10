@@ -1,0 +1,65 @@
+
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <title>Генератор коктейлей</title>
+        <link rel="icon" href="https://telegram-game-bot.site/site/image/logo.png" type="image/x-icon">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+        <script type="text/javascript" src="https://learn.javascript.ru/article/cookie/cookie.js"></script>
+    	<link rel="stylesheet"  href="main.css">
+    </head>
+    
+    <body>
+        <script type="text/javascript"> 
+            jQuery(document).ready(function(){ 
+                $("#preloader").fadeOut("slow"); 
+            }); 
+        </script>
+        <nav class="top-menu">
+            <ul class="menu-main">
+                <li class="left-item"><a href="https://telegram-game-bot.site/site/home/main.html">Главная</a></li>
+                <li class="left-item"><p>Энциклопедия коктелей</p>
+                    <ul>
+                        <li><a href="https://telegram-game-bot.site/site/wiki/bezalck.html">Безалкогольные</a></li>
+                        <li><a href="https://telegram-game-bot.site/site/wiki/alck.html">Алкогольные</a></li>
+                    </ul>
+                </li>
+                <li class="left-item"><a href="https://telegram-game-bot.site/site/wiki/Sheiker.html">Генератор</a></li>
+            </ul>
+            <a class="navbar-logo" href=""><img src="https://telegram-game-bot.site/site/image/logo.png"></a>
+        </nav>
+        <h1>Генератор коктелей</h1>
+        <center>
+            <table width="50%" cellspacing="0" cellpadding="0">
+                <tr> 
+                    <td class="leftcol"><center></center></td>
+                    <td valign="top"><h1 style="color:white">О нас</h1> 
+                    На страницах Вы найдете огромное количество авторских рецептов коктейлей, советов и много другое.  Что сделает повседневность праздником, внесет  разнообразие и серое сделает радужным!  Коктейль – изящная, завораживающая смесь напитков, способная дарить радость, как и «Коктейльная вечеринка».<br><br>
+            
+                    Открытию проекта предшествовала работа по изучению мира коктейлей, барного мастерства, разработке индивидуальной концепции сайта, созданию дизайна, который бы радовал глаз и побуждал погрузиться в интересный мир разнообразных напитков.<br><br>
+            
+                    Важной составляющей проекта является информационное наполнение, которое за счет своего непрерывного обновления является актуальным в любое время суток, ведь не знаешь, когда в голову придет мысль порадовать себя и близких людей, подарить им праздник. Поэтому ежедневно лучшие специалисты барного дела дают свои советы и рекомендации, рецепты, которые Вы без особого труда можете приготовить дома, а также попробовать в барах и ресторанах своего города.
+                </tr>
+            </table>
+        </center>
+        <br>
+        <br>
+        <div id="footer" >2019</div>
+        <script>
+            var el = document.querySelector(".menu-main");
+            if(getCookie("id")==null){
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/reg/autouser.html">Авторизация</a></li>'
+            }else {
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/home/LichKab.html">Личный кабинет</a></li>'
+            }
+            if(getCookie("rol")==2){
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/wiki/add.html">Добавить коктейль</a></li>'
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/wiki/obr.html">Предложенные коктейли</a></li>'
+            }
+            if(getCookie("rol")==1){
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/wiki/predl.html">Предложить коктейль</a></li>'
+            }
+        </script>
+    </body>
+</html>
+  

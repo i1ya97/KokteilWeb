@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <title>Добавление коктейля</title>
+        <link rel="icon" href="https://telegram-game-bot.site/site/image/logo.png" type="image/x-icon">
+	    <link rel="stylesheet"  href="add.css">
+	    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+        <script type="text/javascript" src="https://learn.javascript.ru/article/cookie/cookie.js"></script>
+    </head>
+    
+    <body>
+        <script type="text/javascript"> 
+            jQuery(document).ready(function(){ 
+                $("#preloader").fadeOut("slow"); 
+            }); 
+        </script>
+        <div id="preloader">
+            <div class="log"><img src="https://telegram-game-bot.site/site/image/logo.png"></div>
+            <div class="loader">Загрузка...</div>
+        </div>
+        <nav class="top-menu">
+            <ul class="menu-main">
+                <li class="left-item"><a href="https://telegram-game-bot.site/site/home/main.html">Главная</a></li>
+                <li class="left-item"><p>Энциклопедия коктелей</p>
+                    <ul>
+                        <li><a href="https://telegram-game-bot.site/site/wiki/bezalck.html">Безалкогольные</a></li>
+                        <li><a href="https://telegram-game-bot.site/site/wiki/alck.html">Алкогольные</a></li>
+                    </ul>
+                </li>
+                <li class="left-item"><a href="https://telegram-game-bot.site/site/wiki/Sheiker.html">Генератор</a></li>
+            </ul>
+            <a class="navbar-logo" href=""><img src="https://telegram-game-bot.site/site/image/logo.png"></a>
+        </nav>
+        <section>
+            <form action="" method="POST" id="add">
+                <div>
+                    <textarea cols="50" id="name" rows="5" maxlength="100" name = "name"></textarea>
+                    <label>Название</label>
+                </div>
+                <div >
+                    <ul class="conten">
+                        <div>
+                        <label>Ингредиенты</label><br>
+                        <input id="adddd" class="adddd" placeholder="Название" type="text" size="20">
+                        <input id="addd" class="addd" placeholder="Количество" type="text" size="20">
+                        </div>
+                    </ul>
+                    <center>
+                        <p><input onclick="ad(event)" type="submit" value="Добавить"></p>
+                    </center>
+                </div>
+                <div>
+                    <textarea cols="50" id="cooking" rows="5" maxlength="3000" name = "ingredients"></textarea>
+                    <label>Приготовление</label>
+                </div>
+                <div>
+                    <textarea cols="50" id="description" rows="5" maxlength="10000" name = "ingredients"></textarea>
+                    <label>Описание</label>
+                </div>
+                <div>
+                    <label>Тип:</label>
+                    <br>
+                    <select id="type" name="type" >
+                        <option selected value="alc">Алкогольный</option>
+                        <option value="bezalc">Безалкогольный</option>
+                    </select>
+                </div>
+                <br>
+                <br>
+                <div>
+                    <textarea cols="50" id="image" rows="5" maxlength="400" name = "ingredients"></textarea>
+                    <label>Ссылка на фото</label>
+                    <!--<p><input type="file" id="image" name="photo" onchange="loadFile(event)" accept="image/*"></p>
+                    <label>Фото</label>-->
+                </div>
+                    <input type="submit" value="Добавить" class="button">
+            </form>
+        </section>
+
+        <script>
+            var el = document.querySelector(".menu-main");
+            if(getCookie("id")==null){
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/reg/autouser.html">Авторизация</a></li>'
+            }else {
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/home/LichKab.html">Личный кабинет</a></li>'
+            }
+            if(getCookie("rol")==2){
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/wiki/add.html">Добавить коктейль</a></li>'
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/wiki/obr.html">Предложенные коктейли</a></li>'
+            }
+            if(getCookie("rol")==1){
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/wiki/predl.html">Предложить коктейль</a></li>'
+            }
+            var output = document.getElementById('image');
+            
+            var loadFile = function(event) {
+                output.src = URL.createObjectURL(event.target.files[0]);
+            };
+            
+            function ad(e) {
+            	e.preventDefault();  
+            	var div = document.createElement('div');
+                div.innerHTML = '<input id="adddd" class="adddd" placeholder="Название" type="text" size="20"><input id="addd" class="addd" placeholder="Количество" type="text" size="20">';
+            	var el = document.querySelector(".conten");
+            	el.appendChild(div);
+            }
+            
+            $('#add').submit(function(e) {
+                e.preventDefault();
+                name = document.getElementById("name").value;
+                descrip = document.getElementById("description").value;
+                cook = document.getElementById("cooking").value;
+                n = document.getElementById("type").options.selectedIndex;
+                type = document.getElementById("type").options[$n].value;
+                //$image = output.src;
+                image = document.getElementById("image").value;
+                
+                var consist ="";
+                var mas = document.getElementsByClassName('adddd');
+                var mas2 = document.getElementsByClassName('addd');
+            	var count = mas.length;
+            	for(i=0; i < count; i++){
+            	    c = count -1;
+            	    if(i==c){
+            	        consist += mas[i].value+","+mas2[i].value
+            	    }else {
+            	        $consist += mas[i].value+","+mas2[i].value+","
+            	    }
+            	}
+            	
+                data = '{ "name":"", "consist":"", "descrip":"", "cook":" ", "type":" " , "image":" " }';
+                
+                var Ani = JSON.parse(data);
+                Ani.name = name;
+                Ani.consist = consist;
+                Ani.descrip = descrip;
+                Ani.cook = cook;
+                Ani.type = type;
+                Ani.image = image;
+                //$url = '/api/koktail/'+$name+'/'+$consist+'/'+$descrip+'/'+$cook+'/'+$type+'/'+$image;
+                url = '/api/koktail';
+                
+                $.ajax({
+                    url: $url,
+                    type: 'POST',
+                    method: 'POST',
+                    data: Ani,
+                    dataType: 'json',
+                    success: 
+                    function(response){
+                        console.log('response:', response);
+                        alert(response['message'])
+                    }
+                });
+            });
+        </script>
+    <div id="footer" >2019</div>
+    </body>
+</html>

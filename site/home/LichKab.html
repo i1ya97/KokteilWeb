@@ -1,0 +1,103 @@
+
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <title>Личный кабинет</title>
+        <link rel="icon" href="https://telegram-game-bot.site/site/image/logo.png" type="image/x-icon">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+        <script type="text/javascript" src="https://learn.javascript.ru/article/cookie/cookie.js"></script>
+        <link rel="stylesheet"  href="LichKab.css">
+    </head>
+    
+    <body>
+        <script type="text/javascript"> 
+            jQuery(document).ready(function(){ 
+                $("#preloader").fadeOut("slow"); 
+            }); 
+        </script>
+        <div id="preloader">
+            <div class="log"><img src="https://telegram-game-bot.site/site/image/logo.png"></div>
+            <div class="loader">Загрузка...</div>
+        </div>        
+        <nav class="top-menu">
+            <ul class="menu-main">
+                <li class="left-item"><a href="https://telegram-game-bot.site/site/home/main.html">Главная</a></li>
+                <li class="left-item"><p>Энциклопедия коктелей</p>
+                    <ul>
+                        <li><a href="https://telegram-game-bot.site/site/wiki/bezalck.html">Безалкогольные</a></li>
+                        <li><a href="https://telegram-game-bot.site/site/wiki/alck.html">Алкогольные</a></li>
+                    </ul>
+                </li>
+                <li class="left-item"><a href="https://telegram-game-bot.site/site/wiki/Sheiker.html">Генератор</a></li>
+            </ul>
+            <a class="navbar-logo" href=""><img src="https://telegram-game-bot.site/site/image/logo.png"></a>
+        </nav>
+
+        <center class="name"></center>
+        <center class="koktail">
+        </center>
+        <br>
+        <br>
+        <script>
+            function deletCookie(name) {
+                document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
+            }
+            
+            function exit(name){
+                alert("Вы вышли");
+                deletCookie('id');
+                deletCookie('login');
+                deletCookie('rol');
+            }
+            function del(name){
+                url = '/api/koktail/'+name+'/'+getCookie("id");
+                $.ajax({url: url, method: 'DELETE', dataType: 'json', success: 
+                    function(response){
+                        console.log('response:', response);
+                        alert(response["message"])
+                    }
+                });
+                location.reload()
+            }            
+            var el = document.querySelector(".menu-main");
+            if(getCookie("id")==null){
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/reg/autouser.html">Авторизация</a></li>'
+            }else {
+                el.innerHTML += '<li class="right-item"><a onclick= exit(); href="https://telegram-game-bot.site/site/home/main.html">Выход</a></li>'
+            }
+            if(getCookie("rol")==2){
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/wiki/add.html">Добавить коктейль</a></li>'
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/wiki/obr.html">Предложенные коктейли</a></li>'
+            }
+            if(getCookie("rol")==1){
+                el.innerHTML += '<li class="right-item"><a href="https://telegram-game-bot.site/site/wiki/predl.html">Предложить коктейль</a></li>'
+            }
+            var el = document.querySelector(".name");
+            el.innerHTML += '<h1>Здравствуй, '+getCookie("login")+', здесь находятся твои закладки</h1><br>'
+            
+            $url = '/api/koktail/'+getCookie("id");
+            $.ajax({url: $url, method: 'PUT', dataType: 'json', success: 
+                function(response){
+                    console.log('response:', response);
+                    for($i=0;$i<response.length;$i++){
+                        var el = document.querySelector(".koktail");
+                        el.innerHTML += '<table class="table'+$i+'" width="50%" cellspacing="0" cellpadding="0"></table><br>'
+                        
+                        var el = document.querySelector('.table'+$i);
+                        el.innerHTML =  '<tr class="content'+$i+'"></tr>'
+                        
+                        var el = document.querySelector('.content'+$i);
+                        el.innerHTML +=  '<td class="leftcol"><img src="'+response[$i]["image"]+'" width="200" height="300"><center><a style="color:white" onclick=del("'+response[$i]["id"]+'"); >Удалить</a></center></td>';
+                        el.innerHTML +=  '<td valign="top"><h1 style="color:white">'+response[$i]["name"]+'</h1>'+response[$i]["consist"]+'<a href="https://telegram-game-bot.site/site/wiki/kokteli.html?name='+response[$i]["name"]+'" style="color:white">Подробнее...</a></td>';
+                        $("img").on('error', function(){
+                                $(this).attr('src', 'https://telegram-game-bot.site/site/image/logo.png');
+                        });
+                    }
+                }
+            });
+            
+        </script>
+        <div id="footer" >2019</div>
+    </body>
+</html>
+  
